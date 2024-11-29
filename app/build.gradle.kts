@@ -57,4 +57,6 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.activity.compose)
 
+    implementation(libs.retrofit)
+
 }
