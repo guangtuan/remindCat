@@ -1,4 +1,4 @@
-package tech.igrant.remindcat
+package tech.igrant.remindcat.list
 
 
 import android.os.Bundle
@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import tech.igrant.remindcat.reminder.Reminder
 
 class MainActivity: ComponentActivity() {
 

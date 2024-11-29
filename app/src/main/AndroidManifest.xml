@@ -13,7 +13,7 @@
         android:theme="@style/Theme.RemindCat"
         tools:targetApi="35">
         <activity
-            android:name=".MainActivity"
+            android:name=".list.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.RemindCat.NoActionBar">
             <intent-filter>

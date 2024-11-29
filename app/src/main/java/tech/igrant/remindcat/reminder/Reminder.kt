@@ -1,4 +1,4 @@
-package tech.igrant.remindcat
+package tech.igrant.remindcat.reminder
 
 data class Reminder(
     val name: String,
