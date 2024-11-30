@@ -5,6 +5,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import java.lang.reflect.Method
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+import kotlin.reflect.jvm.javaType
+import kotlin.reflect.jvm.kotlinFunction
 
 object RetrofitExt {
 
@@ -15,16 +19,33 @@ object RetrofitExt {
         DELETE::class.java
     )
 
-    fun parse(method: Method): Request {
+    private fun typeConvert(type: Type): ResultType {
+        return  when (type) {
+            is ParameterizedType -> {
+                when (type.rawType) {
+                    java.util.List::class.java -> {
+                        ListT(typeConvert(type.actualTypeArguments[0]), type)
+                    }
+                    else -> {
+                        ResultType.PlaceHolder.instance
+                    }
+                }
+            }
+            is Class<*> -> Normal(type, type)
+            else -> ResultType.PlaceHolder.instance
+        }
+    }
+
+    fun parse(method: Method, args: Array<Any>): Request {
         return supportMethods
-            .map { method.getAnnotation(it) }
-            .firstOrNull()
+            .firstNotNullOfOrNull { method.getAnnotation(it) }
             ?.let {
+                val t = method.kotlinFunction?.returnType?.javaType ?: method.returnType
                 when (it) {
-                    is GET -> Request(HttpMethod.GET, it.value)
-                    is POST -> Request(HttpMethod.POST, it.value)
-                    is PUT -> Request(HttpMethod.PUT, it.value)
-                    is DELETE -> Request(HttpMethod.DELETE, it.value)
+                    is GET -> Get(it.value, typeConvert(t))
+                    is POST -> Post(it.value, typeConvert(t), args[0])
+                    is PUT -> Put(it.value, typeConvert(t))
+                    is DELETE -> Delete(it.value)
                     else -> throw IllegalArgumentException("Unknown annotation")
                 }
             }

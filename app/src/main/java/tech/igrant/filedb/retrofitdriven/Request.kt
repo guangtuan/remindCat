@@ -1,5 +1,31 @@
 package tech.igrant.filedb.retrofitdriven
 
-data class Request(val method: HttpMethod, val path: String) {
+interface Request
+
+data class Get(
+    val path: String,
+    val resultType: ResultType
+) : Request {
+
+}
+
+data class Post(
+    val path: String,
+    val resultType: ResultType,
+    val body: Any
+): Request {
+
+}
+
+data class Put(
+    val path: String,
+    val resultType: ResultType
+): Request {
+
+}
+
+data class Delete(
+    val path: String
+): Request {
 
 }
