@@ -43,6 +43,9 @@ android {
 
 dependencies {
 
+    implementation(libs.kotlin.reflect)
+    implementation(libs.gson)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
@@ -57,6 +60,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.activity.compose)
+
 
     implementation(libs.retrofit)
 
