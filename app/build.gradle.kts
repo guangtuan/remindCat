@@ -69,4 +69,6 @@ dependencies {
 
     implementation(libs.retrofit)
 
+    implementation(libs.koin.android)
+
 }
