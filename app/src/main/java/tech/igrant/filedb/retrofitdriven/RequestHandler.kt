@@ -16,11 +16,13 @@ class RequestHandler(private val root: File) {
                             ?.map { JSON.de(it.readText(), request.resultType.raw) }
                             ?: emptyList<Any>()
                     }
+
                     else -> {
                         TODO("not impl")
                     }
                 }
             }
+
             is Post -> {
                 val namespace = File(root, request.path)
                 val name = UUID.randomUUID().toString()
@@ -29,11 +31,13 @@ class RequestHandler(private val root: File) {
                     is Normal -> {
                         return request.body
                     }
+
                     else -> {
                         TODO("not impl")
                     }
                 }
             }
+
             else -> {
                 TODO("not impl")
             }
