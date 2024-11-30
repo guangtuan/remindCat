@@ -5,7 +5,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import tech.igrant.filedb.retrofitdriven.FileDrivenDb
-import tech.igrant.filedb.retrofitdriven.RequestHandler
 
 class RemindCat : Application() {
 
@@ -16,10 +15,7 @@ class RemindCat : Application() {
             modules(
                 module {
                     single {
-                        RequestHandler(applicationContext.cacheDir)
-                    }
-                    single {
-                        FileDrivenDb(get())
+                        FileDrivenDb(applicationContext.cacheDir)
                     }
                 }
             )

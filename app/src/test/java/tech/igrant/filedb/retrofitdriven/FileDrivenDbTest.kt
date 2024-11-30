@@ -15,7 +15,7 @@ class FileDrivenDbTest {
         println("Build directory: $buildDir")
         val sandBox = File(buildDir, "tmp")
         println("sandBox: $sandBox")
-        val service = FileDrivenDb(RequestHandler(sandBox)).createService(ReminderProvider::class.java)
+        val service = FileDrivenDb(sandBox).createService(ReminderProvider::class.java)
         val saved = runBlocking {
             service.save(Reminder("a", 5))
         }
