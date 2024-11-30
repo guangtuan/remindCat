@@ -39,6 +39,11 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests.all {
+            it.systemProperty("buildDir", project.layout.buildDirectory.asFile.get().absolutePath)
+        }
+    }
 }
 
 dependencies {
