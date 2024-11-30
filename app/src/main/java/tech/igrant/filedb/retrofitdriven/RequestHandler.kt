@@ -23,8 +23,6 @@ class RequestHandler(private val root: File) {
             }
             is Post -> {
                 val namespace = File(root, request.path)
-                println(namespace.mkdirs())
-                println(namespace)
                 val name = UUID.randomUUID().toString()
                 File(namespace, name).writeText(JSON.se(request.body), StandardCharsets.UTF_8)
                 when (request.resultType) {
