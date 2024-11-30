@@ -1,5 +1,6 @@
 package tech.igrant.filedb.retrofitdriven
 
+import tech.igrant.fundation.gson.JSON
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.util.UUID

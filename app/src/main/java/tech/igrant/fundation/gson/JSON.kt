@@ -1,4 +1,4 @@
-package tech.igrant.filedb.retrofitdriven
+package tech.igrant.fundation.gson
 
 import com.google.gson.Gson
 import java.lang.reflect.Type
