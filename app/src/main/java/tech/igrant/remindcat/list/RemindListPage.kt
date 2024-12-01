@@ -37,7 +37,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import tech.igrant.remindcat.reminder.Reminder
 
-class MainActivity: ComponentActivity() {
+class RemindListPage: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
