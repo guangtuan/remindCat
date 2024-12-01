@@ -24,7 +24,7 @@ object RetrofitExt {
             is ParameterizedType -> {
                 when (type.rawType) {
                     java.util.List::class.java -> {
-                        ListT(typeConvert(type.actualTypeArguments[0]), type)
+                        ListT(type.actualTypeArguments[0], type)
                     }
                     else -> {
                         ResultType.PlaceHolder.instance

@@ -10,7 +10,7 @@ interface ResultType {
     }
 }
 
-class ListT(val eleType: ResultType, val raw: Type) : ResultType {
+class ListT(val eleType: Type, val raw: Type) : ResultType {
     override fun toString(): String {
         return raw.toString()
     }

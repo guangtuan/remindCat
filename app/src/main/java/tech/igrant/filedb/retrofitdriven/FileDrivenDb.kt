@@ -24,10 +24,12 @@ class FileDrivenDb(
     private fun work(request: Request): Any {
         return when (request) {
             is Get -> {
-                when (request.resultType) {
+                val (path, resultType) = request
+                when (resultType) {
                     is ListT -> {
-                        File(root, request.path).listFiles()
-                            ?.map { JSON.de(it.readText(), request.resultType.raw) }
+                        File(root, path)
+                            .listFiles()
+                            ?.map { JSON.de(it.readText(), resultType.eleType) }
                             ?: emptyList<Any>()
                     }
 
@@ -38,10 +40,12 @@ class FileDrivenDb(
             }
 
             is Post -> {
-                val namespace = File(root, request.path)
+                val (path, resultType, body) = request
+                val namespace = File(root, path)
+                namespace.mkdirs()
                 val name = UUID.randomUUID().toString()
-                File(namespace, name).writeText(JSON.se(request.body), StandardCharsets.UTF_8)
-                when (request.resultType) {
+                File(namespace, name).writeText(JSON.se(body), StandardCharsets.UTF_8)
+                when (resultType) {
                     is Normal -> {
                         return request.body
                     }
