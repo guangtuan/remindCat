@@ -1,14 +1,25 @@
 package tech.igrant.filedb.retrofitdriven
 
 import tech.igrant.fundation.gson.JSON
+import tech.igrant.fundation.id.Random
 import java.io.File
 import java.lang.reflect.Proxy
 import java.nio.charset.StandardCharsets
-import java.util.UUID
 
 class FileDrivenDb(
     private val root: File
 ) {
+
+    private fun ensurePresent(root: File, name: String): File {
+        val res = File(root, name)
+        if (res.exists()) {
+            return res
+        }
+        if (res.mkdirs()) {
+            return res
+        }
+        throw RuntimeException("failed to create ${res.absoluteFile}")
+    }
 
     fun <T> createService(t: Class<T>): T {
         return t.cast(
@@ -27,7 +38,7 @@ class FileDrivenDb(
                 val (path, resultType) = request
                 when (resultType) {
                     is ListT -> {
-                        File(root, path)
+                        ensurePresent(root, path)
                             .listFiles()
                             ?.map { JSON.de(it.readText(), resultType.eleType) }
                             ?: emptyList<Any>()
@@ -41,10 +52,8 @@ class FileDrivenDb(
 
             is Post -> {
                 val (path, resultType, body) = request
-                val namespace = File(root, path)
-                namespace.mkdirs()
-                val name = UUID.randomUUID().toString()
-                File(namespace, name).writeText(JSON.se(body), StandardCharsets.UTF_8)
+                val namespace = ensurePresent(root, path)
+                File(namespace, Random.id()).writeText(JSON.se(body), StandardCharsets.UTF_8)
                 when (resultType) {
                     is Normal -> {
                         return request.body
