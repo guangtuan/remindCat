@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,9 +37,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import org.koin.android.ext.android.inject
 import tech.igrant.remindcat.reminder.Reminder
+import tech.igrant.remindcat.reminder.ReminderManager
 
-class RemindListPage: ComponentActivity() {
+class RemindListPage : ComponentActivity() {
+
+    private val reminderManager: ReminderManager by inject<ReminderManager>()
+
+    private val viewModel: RemindersViewModel by lazy {
+        RemindersViewModel(reminderManager)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +57,8 @@ class RemindListPage: ComponentActivity() {
     }
 
     @Composable
-    fun ReminderList(reminders: List<Reminder>, onAddReminder: () -> Unit) {
+    fun ReminderList(reminders: List<Reminder>) {
         Scaffold(
-            floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    text = { Text("添加提醒") },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = "Add Reminder") },
-                    onClick = onAddReminder
-                )
-            },
             content = { padding ->
                 LazyColumn(contentPadding = padding) {
                     items(reminders) { item -> ReminderItem(item) }
@@ -75,7 +78,10 @@ class RemindListPage: ComponentActivity() {
             ) {
                 Text(text = reminder.name, style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "每${reminder.frequency}天", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "每${reminder.frequency}天",
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
         }
     }
@@ -83,7 +89,7 @@ class RemindListPage: ComponentActivity() {
     @Composable
     fun AddReminderDialog(onDismiss: () -> Unit, onAdd: (Reminder) -> Unit) {
         var name by remember { mutableStateOf("") }
-        var frequency by remember { mutableStateOf("" )}
+        var frequency by remember { mutableStateOf("") }
 
         AlertDialog(
             onDismissRequest = onDismiss,
@@ -141,33 +147,33 @@ class RemindListPage: ComponentActivity() {
 
     @Composable
     fun MainScreen() {
-        val (showAddReminderDialog, setShowAddReminderDialog) = remember { mutableStateOf(false) }
-        val reminders = remember { mutableListOf(
-            Reminder(name = "换水", frequency = 3),
-            Reminder(name = "煮鸡胸肉", frequency = 2)
-        ) }
-
-        if (showAddReminderDialog) {
-            AddReminderDialog(onDismiss = { setShowAddReminderDialog(false) }) { reminder ->
-                // 这里可以更新提醒列表
-                reminders.add(reminder)
-                setShowAddReminderDialog(false)
+        val uiState by viewModel.uiState.collectAsState()
+        if (uiState.isLoading) {
+            CircularProgressIndicator()
+        } else {
+            if (uiState.showAddReminderDialog) {
+                AddReminderDialog(
+                    onDismiss = { viewModel.hideAddReminderDialog() },
+                    onAdd = { reminder ->
+                        viewModel.addReminder(reminder)
+                    }
+                )
+            } else {
+                Scaffold(
+                    floatingActionButton = {
+                        ExtendedFloatingActionButton(
+                            text = { Text("添加提醒") },
+                            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Reminder") },
+                            onClick = { viewModel.showAddReminderDialog() }
+                        )
+                    },
+                    content = { padding: PaddingValues ->
+                        Text("Hello, Compose!", modifier = Modifier.padding(padding))
+                        ReminderList(uiState.reminders)
+                    }
+                )
             }
         }
-
-        Scaffold(
-            floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    text = { Text("添加提醒") },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = "Add Reminder") },
-                    onClick = { setShowAddReminderDialog(true) }
-                )
-            },
-            content = { padding: PaddingValues ->
-                Text("Hello, Compose!", modifier = Modifier.padding(padding))
-                ReminderList(reminders, onAddReminder = { setShowAddReminderDialog(true) })
-            }
-        )
     }
 
 }
