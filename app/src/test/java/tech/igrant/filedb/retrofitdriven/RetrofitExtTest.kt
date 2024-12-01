@@ -1,13 +1,13 @@
 package tech.igrant.filedb.retrofitdriven
 
 import org.junit.jupiter.api.Assertions
-import tech.igrant.remindcat.reminder.ReminderProvider
+import tech.igrant.remindcat.reminder.ReminderManager
 
 class RetrofitExtTest {
 
     @org.junit.jupiter.api.Test
     fun parse() {
-        (ReminderProvider::class.java
+        (ReminderManager::class.java
             .methods
             .firstOrNull { it.name == "list" }
             ?.let { method ->

@@ -3,7 +3,7 @@ package tech.igrant.remindcat.reminder
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface ReminderProvider {
+interface ReminderManager {
 
     @GET("reminders")
     suspend fun list(): List<Reminder>
