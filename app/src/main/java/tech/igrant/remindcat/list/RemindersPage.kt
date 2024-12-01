@@ -41,7 +41,7 @@ import org.koin.android.ext.android.inject
 import tech.igrant.remindcat.reminder.Reminder
 import tech.igrant.remindcat.reminder.ReminderManager
 
-class RemindListPage : ComponentActivity() {
+class RemindersPage : ComponentActivity() {
 
     private val reminderManager: ReminderManager by inject<ReminderManager>()
 
@@ -57,18 +57,18 @@ class RemindListPage : ComponentActivity() {
     }
 
     @Composable
-    fun ReminderList(reminders: List<Reminder>) {
+    fun Reminders(reminders: List<Reminder>) {
         Scaffold(
             content = { padding ->
                 LazyColumn(contentPadding = padding) {
-                    items(reminders) { item -> ReminderItem(item) }
+                    items(reminders) { item -> EachReminder(item) }
                 }
             }
         )
     }
 
     @Composable
-    fun ReminderItem(reminder: Reminder) {
+    fun EachReminder(reminder: Reminder) {
         Card {
             Row(
                 modifier = Modifier
@@ -169,7 +169,7 @@ class RemindListPage : ComponentActivity() {
                     },
                     content = { padding: PaddingValues ->
                         Text("Hello, Compose!", modifier = Modifier.padding(padding))
-                        ReminderList(uiState.reminders)
+                        Reminders(uiState.reminders)
                     }
                 )
             }

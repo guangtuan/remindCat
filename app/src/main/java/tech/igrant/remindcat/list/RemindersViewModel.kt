@@ -11,8 +11,8 @@ import tech.igrant.remindcat.reminder.Reminder
 import tech.igrant.remindcat.reminder.ReminderManager
 
 class RemindersViewModel(private val reminderManager: ReminderManager) : ViewModel() {
-    private val _uiState = MutableStateFlow(ReminderListState())
-    val uiState: StateFlow<ReminderListState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(RemindersState())
+    val uiState: StateFlow<RemindersState> = _uiState.asStateFlow()
     init {
         viewModelScope.launch {
             try {
