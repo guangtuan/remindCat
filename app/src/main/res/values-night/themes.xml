@@ -2,6 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.RemindCat" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+        <item name="title">@string/app_name</item>
     </style>
 </resources>

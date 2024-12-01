@@ -16,7 +16,7 @@
         <activity
             android:name=".list.RemindersPage"
             android:exported="true"
-            android:theme="@style/Theme.RemindCat.NoActionBar">
+            android:theme="@style/Theme.RemindCat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

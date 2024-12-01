@@ -1,10 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Theme color -->
+    <color name="primary">#28A745</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#666666</color>
+
+    <!-- Button colors -->
+    <color name="button_primary">#1F8C35</color>
+    <color name="button_text_primary">#FFFFFF</color>
+
+    <!-- Card background color -->
+    <color name="card_background">#D0F8CE</color>
+
+    <!-- Link colors -->
+    <color name="link_default">#007BFF</color>
+    <color name="link_hover">#0056B3</color>
+    <color name="link_visited">#4A4A4A</color>
+
+    <!-- Border color -->
+    <color name="border_color">#E0E0E0</color>
+
+    <!-- Disabled state color -->
+    <color name="disabled">#BDBDBD</color>
+
+    <!-- Warning and error message color -->
+    <color name="error">#FF4136</color>
+    <color name="warning">#FF851B</color>
+
+    <!-- Success and notification color -->
+    <color name="success">#28A745</color>
+    <color name="notification">#FFEB3B</color>
+
+    <!-- Loading and activity indicator color -->
+    <color name="loading">#C8E6C9</color>
+
+    <!-- Form element colors -->
+    <color name="input_background">#F0F0F0</color>
+    <color name="input_border">#9E9E9E</color>
+
+    <!-- Hover and focus states -->
+    <color name="hover">#D5E1DC</color>
+    <color name="focus">#B2DFDB</color>
+
+    <!-- Icon colors -->
+    <color name="icon_primary">#FFFFFF</color>
+
+    <!-- Separator and divider colors -->
+    <color name="separator">#DDDDDD</color>
+
+    <!-- Shadow color -->
+    <color name="shadow">#1F1F1F</color>
+
+    <!-- Highlight color -->
+    <color name="highlight">#FFFF00</color>
+
+    <!-- Gradient colors -->
+    <color name="gradient_start">#4CAF50</color>
+    <color name="gradient_end">#43A047</color>
+
+    <!-- Brand related colors -->
+    <color name="brand_accent">#FBC02D</color>
+
+    <!-- User interface element colors -->
+    <color name="ui_element">#78909C</color>
+
+    <!-- Chart and data visualization colors -->
+    <color name="chart_primary">#1B5E20</color>
+
+    <!-- Form validation error color -->
+    <color name="validation_error">#EF9A9A</color>
+
+    <!-- Tooltip and popup window colors -->
+    <color name="tooltip_background">#616161</color>
+    <color name="tooltip_text">#FFFFFF</color>
+
+    <!-- Menu and dropdown list colors -->
+    <color name="menu_item">#B2DFDB</color>
+    <color name="dropdown_background">#FFFFFF</color>
+    <color name="dropdown_divider">#B6B6B6</color>
+
+    <color name="page_background">#F5F5F5</color>
+
 </resources>
