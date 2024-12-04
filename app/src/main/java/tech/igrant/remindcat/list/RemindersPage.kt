@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,6 +35,8 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
@@ -47,9 +50,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.koin.android.ext.android.inject
 import tech.igrant.remindcat.R
 import tech.igrant.remindcat.reminder.Reminder
@@ -127,26 +133,57 @@ class RemindersPage : ComponentActivity() {
         var name by remember { mutableStateOf("") }
         var frequency by remember { mutableStateOf("") }
 
+        @Composable
+        fun colors(): TextFieldColors {
+            return TextFieldDefaults.colors().copy(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color(getColor(R.color.primary)),
+                unfocusedIndicatorColor = Color(getColor(R.color.primary))
+            )
+        }
+
         AlertDialog(
+            shape = RoundedCornerShape(0.dp),
+            containerColor = Color(getColor(R.color.page_background)),
             onDismissRequest = onDismiss,
             title = { Text("添加提醒") },
             text = {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Text(
+                        textAlign = TextAlign.Start,
+                        color = Color(getColor(R.color.text_primary)),
+                        text = "Title",
+                        fontSize =  16.sp
+                    )
+                    Spacer(Modifier.height(8.dp))
                     TextField(
                         value = name,
+                        colors = colors(),
                         onValueChange = { name = it },
-                        label = { Text("提醒名称") },
+                        label = { Text("remind what") },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = null)
                     )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        textAlign = TextAlign.Start,
+                        color = Color(getColor(R.color.text_primary)),
+                        text = "Freq",
+                        fontSize =  16.sp
+                    )
+                    Spacer(Modifier.height(8.dp))
                     TextField(
                         value = frequency,
+                        colors = colors(),
                         onValueChange = { frequency = it },
                         label = { Text("频率（天）") },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
                         keyboardActions = KeyboardActions(onDone = {
                             // 当用户完成输入时，提交表单
                             try {
@@ -161,7 +198,14 @@ class RemindersPage : ComponentActivity() {
                 }
             },
             confirmButton = {
-                Button(onClick = {
+                Button(
+                    colors = ButtonColors(
+                        containerColor = Color(getColor(R.color.button_primary)),
+                        contentColor = Color(getColor(R.color.button_text_primary)),
+                        disabledContainerColor = Color(getColor(R.color.button_primary)),
+                        disabledContentColor = Color(getColor(R.color.button_text_primary)),
+                    ),
+                    onClick = {
                     try {
                         val freq = frequency.toInt()
                         onAdd(Reminder(name, freq))
